@@ -34,7 +34,8 @@ int main() {
     process(std::move(ptr));   // transfer ownership
 }
 ```
-Ater `std::move(ptr)`, ptr == nullptr, ownership move to `p`
+Ater `std::move(ptr)`, ptr == nullptr, ownership move to `p`   
+`std::move` will be mentioned in [02-move-semantics.md](./02-move-semantics.md)
 
 ## Shared ownership
 `std::shared_ptr`

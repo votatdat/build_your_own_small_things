@@ -109,11 +109,11 @@ build-your-own-vector/
 │   └── demo_vector.cpp
 │
 └── notes/
-    ├── 01-size-vs-capacity.md
-    ├── 02-rule-of-five.md
-    ├── 03-move-semantics.md
-    ├── 04-exception-safety.md
-    └── 05-quant-dev-notes.md
+    ├── 01-[...].md
+    ├── 02-[...].md
+    ├── 03-[...].md
+    ├── 04-[...].md
+    └── 05-[...].md
 ```
 
 ---

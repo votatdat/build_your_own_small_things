@@ -44,4 +44,8 @@
 .vscode
 
 # build folder
-build
+/*/build
+
+# cpp test file
+/*.cpp
+/*.hpp
