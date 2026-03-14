@@ -1,1 +1,3 @@
-# build_your_own_cpp
+## Learn C++ by building simple projects
+### 1. Build your own Vector
+### 2. ...

@@ -1,0 +1,23 @@
+BasedOnStyle: LLVM
+IndentWidth: 4
+ColumnLimit: 0
+BreakBeforeBraces: Attach
+
+# --- The "Book Style" Fix ---
+PointerAlignment: Left
+DerivePointerAlignment: false # Forces the style even if the file has mixed styles
+
+# --- Modern C++ / HFT Best Practices ---
+Standard: Latest             # Supports C++20/23/26 features
+SortIncludes: true           # Keeps headers organized (critical for large builds)
+IncludeBlocks: Regroup       # Groups standard library headers together
+
+# --- Readability Adjustments ---
+AccessModifierOffset: -4     # Aligns 'public:' with 'class' keyword
+AlignAfterOpenBracket: Align # Aligns function arguments vertically
+NamespaceIndentation: None   # Common in HFT to avoid massive indentation in namespaces
+
+# --- Disallow "Hidden" Logic ---
+AllowShortFunctionsOnASingleLine: None
+AllowShortIfStatementsOnASingleLine: Never
+AllowShortLoopsOnASingleLine: false
