@@ -27,9 +27,9 @@ public:
     IntVector& operator=(IntVector&& other) noexcept;
 
     // capacity
-    std::size_t size() const noexcept;
-    std::size_t capacity() const noexcept;
-    bool empty() const noexcept;
+    [[nodiscard]] std::size_t size() const noexcept;
+    [[nodiscard]] std::size_t capacity() const noexcept;
+    [[nodiscard]] bool empty() const noexcept;
 
     // element access
     int& operator[](std::size_t index) noexcept;

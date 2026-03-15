@@ -7,6 +7,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 add_executable(vector_tests
     tests/test_int_vector.cpp
+    src/int_vector.cpp
 )
 
 target_include_directories(vector_tests PRIVATE
