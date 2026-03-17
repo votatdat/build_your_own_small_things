@@ -1,10 +1,8 @@
 #include "int_vector.hpp"
 
-// constructor
-IntVector::IntVector() noexcept {
-    data_ = nullptr;
-    size_ = 0;
-    capacity_ = 0;
+// default constructor
+IntVector::IntVector() noexcept
+    : data_{nullptr}, size_{0}, capacity_{0} {
 }
 
 // destructor
@@ -12,22 +10,18 @@ IntVector::~IntVector() {
     delete[] data_;
 }
 
-// copy semantics
-// this is called: copy constructor, not initialize yet
-IntVector::IntVector(const IntVector& other) {
-    size_ = other.size_;
-    capacity_ = other.capacity_;
+// copy constructor
+IntVector::IntVector(const IntVector& other)
+    : data_{nullptr}, size_{other.size_}, capacity_{other.capacity_} {
     if (capacity_ > 0) {
-        int* new_data = new int[capacity_];
-        for (std::size_t i = 0; i < size_; i++) {
-            new_data[i] = other.data_[i];
+        data_ = new int[capacity_];
+        for (std::size_t i = 0; i < size_; ++i) {
+            data_[i] = other.data_[i];
         }
-        data_ = new_data;
-    } else {
-        data_ = nullptr;
     }
 }
-// this is called: copy assignment operator
+
+// copy assignment operator
 IntVector& IntVector::operator=(const IntVector& other) {
     if (this == &other) {
         return *this;
@@ -36,11 +30,12 @@ IntVector& IntVector::operator=(const IntVector& other) {
     int* new_data = nullptr;
 
     if (other.capacity_ > 0) {
-        new_data = new int[capacity_];
-        for (std::size_t i = 0; i < size_; i++) {
+        new_data = new int[other.capacity_];
+        for (std::size_t i = 0; i < other.size_; ++i) {
             new_data[i] = other.data_[i];
         }
     }
+
     delete[] data_; // initilized alr => must delete first
     data_ = new_data;
     size_ = other.size_;
@@ -49,9 +44,32 @@ IntVector& IntVector::operator=(const IntVector& other) {
     return *this;
 }
 
-// // TODO: move semantics
-// IntVector(IntVector&& other) noexcept;
-// IntVector& operator=(IntVector&& other) noexcept;
+// move constructor
+IntVector::IntVector(IntVector&& other) noexcept
+    : data_{other.data_}, size_{other.size_}, capacity_{other.capacity_} {
+    other.data_ = nullptr;
+    other.size_ = 0;
+    other.capacity_ = 0;
+}
+
+// move assignment operator
+IntVector& IntVector::operator=(IntVector&& other) noexcept {
+    if (this == &other) {
+        return *this;
+    }
+
+    delete[] data_;
+
+    data_ = other.data_;
+    size_ = other.size_;
+    capacity_ = other.capacity_;
+
+    other.data_ = nullptr;
+    other.size_ = 0;
+    other.capacity_ = 0;
+
+    return *this;
+}
 
 // internal re-allocate
 void IntVector::reallocate(std::size_t new_capacity) {
