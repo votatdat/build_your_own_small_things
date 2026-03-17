@@ -49,3 +49,4 @@
 # cpp test file
 /*.cpp
 /*.hpp
+/test

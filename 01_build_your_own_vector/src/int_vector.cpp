@@ -1,5 +1,7 @@
 #include "int_vector.hpp"
 
+#include <stdexcept>
+
 // default constructor
 IntVector::IntVector() noexcept
     : data_{nullptr}, size_{0}, capacity_{0} {
@@ -75,7 +77,7 @@ IntVector& IntVector::operator=(IntVector&& other) noexcept {
 void IntVector::reallocate(std::size_t new_capacity) {
     int* new_data = new int[new_capacity];
 
-    for (std::size_t i = 0; i < size_; i++) {
+    for (std::size_t i = 0; i < size_; ++i) {
         new_data[i] = data_[i];
     }
 
@@ -103,36 +105,102 @@ const int& IntVector::operator[](std::size_t index) const noexcept {
     return data_[index];
 }
 
-// int& at(std::size_t index);
-// const int& at(std::size_t index) const;
+int& IntVector::at(std::size_t index) {
+    if (index >= size_) {
+        throw std::out_of_range("IntVector::at: index out of range");
+    }
+    return data_[index];
+}
+const int& IntVector::at(std::size_t index) const {
+    if (index >= size_) {
+        throw std::out_of_range("IntVector::at: index out of range");
+    }
+    return data_[index];
+}
 
-// int& front();
-// const int& front() const;
+int& IntVector::front() {
+    if (empty()) {
+        throw std::out_of_range("IntVector::front: vector is empty");
+    }
+    return data_[0];
+}
+const int& IntVector::front() const {
+    if (empty()) {
+        throw std::out_of_range("IntVector::front: vector is empty");
+    }
+    return data_[0];
+}
 
-// int& back();
-// const int& back() const;
+int& IntVector::back() {
+    if (empty()) {
+        throw std::out_of_range("IntVector::back: vector is empty");
+    }
+    return data_[size_ - 1];
+}
+const int& IntVector::back() const {
+    if (empty()) {
+        throw std::out_of_range("IntVector::back: vector is empty");
+    }
+    return data_[size_ - 1];
+}
 
-// // modifiers
+// modifiers
 void IntVector::push_back(int value) {
     if (size_ == capacity_) {
         std::size_t new_capacity = (capacity_ == 0) ? 1 : capacity_ * 2;
         reallocate(new_capacity);
     }
     data_[size_] = value;
-    size_++;
+    ++size_;
 }
-// void pop_back();
 
-// void clear() noexcept;
+void IntVector::pop_back() {
+    if (empty()) {
+        throw std::out_of_range("IntVector::pop_back: vector is empty");
+    }
+    --size_;
+}
 
-// void reserve(std::size_t new_capacity);
-// void resize(std::size_t new_size, int value = 0);
+void IntVector::clear() noexcept {
+    size_ = 0;
+}
 
-// // iterators
-// int* begin() noexcept;
-// const int* begin() const noexcept;
-// const int* cbegin() const noexcept;
+void IntVector::reserve(std::size_t new_capacity) {
+    if (new_capacity <= capacity_) {
+        return;
+    }
+    reallocate(new_capacity);
+}
 
-// int* end() noexcept;
-// const int* end() const noexcept;
-// const int* cend() const noexcept;
+void IntVector::resize(std::size_t new_size, int value) {
+    if (new_size > size_) {
+        if (new_size > capacity_) {
+            reallocate(new_size);
+        }
+        for (std::size_t i = size_; i < new_size; ++i) {
+            data_[i] = value;
+        }
+    }
+    size_ = new_size;
+}
+
+// iterator
+int* IntVector::begin() noexcept {
+    return data_;
+}
+const int* IntVector::begin() const noexcept {
+    return data_;
+}
+const int* IntVector::cbegin() const noexcept {
+    return data_;
+}
+
+int* IntVector::end() noexcept {
+    return data_ + size_;
+}
+const int* IntVector::end() const noexcept {
+    return data_ + size_;
+}
+const int* IntVector::cend() const noexcept {
+    return data_ + size_;
+}
