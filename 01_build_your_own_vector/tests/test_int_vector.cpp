@@ -303,6 +303,141 @@ void test_copy_move_tracker_smoke_test() {
     assert(CopyMoveTracker::destructor_count == 4);
 }
 
+void test_insert_empty() {
+    IntVector v;
+
+    v.insert(0, 10);
+
+    assert(v.size() == 1);
+    assert(v[0] == 10);
+}
+
+void test_insert_front() {
+    IntVector v;
+    v.push_back(20);
+    v.push_back(30);
+
+    v.insert(0, 10);
+
+    assert(v.size() == 3);
+    assert(v[0] == 10);
+    assert(v[1] == 20);
+    assert(v[2] == 30);
+}
+
+void test_insert_middle() {
+    IntVector v;
+    v.push_back(10);
+    v.push_back(30);
+
+    v.insert(1, 20);
+
+    assert(v.size() == 3);
+    assert(v[0] == 10);
+    assert(v[1] == 20);
+    assert(v[2] == 30);
+}
+
+void test_insert_end() {
+    IntVector v;
+    v.push_back(10);
+    v.push_back(20);
+
+    v.insert(v.size(), 30);
+
+    assert(v.size() == 3);
+    assert(v[2] == 30);
+}
+
+void test_insert_reallocate() {
+    IntVector v;
+
+    for (int i = 0; i < 10; ++i) {
+        v.push_back(i);
+    }
+
+    v.insert(5, 999);
+
+    assert(v.size() == 11);
+    assert(v[5] == 999);
+    assert(v[6] == 5); // shifted
+}
+
+void test_insert_invalid() {
+    IntVector v;
+    v.push_back(1);
+
+    bool thrown = false;
+
+    try {
+        v.insert(2, 10);
+    } catch (const std::out_of_range&) {
+        thrown = true;
+    }
+
+    assert(thrown);
+}
+
+void test_erase_middle() {
+    IntVector v;
+    v.push_back(10);
+    v.push_back(20);
+    v.push_back(30);
+
+    v.erase(1);
+
+    assert(v.size() == 2);
+    assert(v[0] == 10);
+    assert(v[1] == 30);
+}
+
+void test_erase_front() {
+    IntVector v;
+    v.push_back(10);
+    v.push_back(20);
+
+    v.erase(0);
+
+    assert(v.size() == 1);
+    assert(v[0] == 20);
+}
+
+void test_erase_last() {
+    IntVector v;
+    v.push_back(10);
+    v.push_back(20);
+
+    v.erase(1);
+
+    assert(v.size() == 1);
+    assert(v[0] == 10);
+}
+
+void test_erase_single() {
+    IntVector v;
+    v.push_back(42);
+
+    v.erase(0);
+
+    assert(v.size() == 0);
+    assert(v.empty());
+}
+
+void test_erase_invalid() {
+    IntVector v;
+    v.push_back(1);
+
+    bool thrown = false;
+
+    try {
+        v.erase(1);
+    } catch (const std::out_of_range&) {
+        thrown = true;
+    }
+
+    assert(thrown);
+}
+
 int main() {
     test_default_constructor();
     test_push_back_and_indexing();
@@ -322,7 +457,20 @@ int main() {
     test_move_assignment();
     test_iteration();
     test_copy_move_tracker_smoke_test();
+    test_insert_empty();
+    test_insert_front();
+    test_insert_middle();
+    test_insert_end();
+    test_insert_reallocate();
+    test_insert_invalid();
 
-    std::cout << "All IntVector tests passed.\n";
+    test_erase_middle();
+    test_erase_front();
+    test_erase_last();
+    test_erase_single();
+    test_erase_invalid();
+
+    std::cout
+        << "All IntVector tests passed.\n";
     return 0;
 }

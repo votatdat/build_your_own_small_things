@@ -204,3 +204,33 @@ const int* IntVector::end() const noexcept {
 const int* IntVector::cend() const noexcept {
     return data_ + size_;
 }
+
+void IntVector::insert(std::size_t pos, int value) {
+    if (pos > size_) {
+        throw std::out_of_range("IntVector::insert: position out of range");
+    }
+
+    if (size_ == capacity_) {
+        const std::size_t new_capacity = (capacity_ == 0) ? 1 : capacity_ * 2;
+        reallocate(new_capacity);
+    }
+
+    for (std::size_t i = size_; i > pos; --i) {
+        data_[i] = data_[i - 1];
+    }
+
+    data_[pos] = value;
+    ++size_;
+}
+
+void IntVector::erase(std::size_t pos) {
+    if (pos >= size_) {
+        throw std::out_of_range("IntVector::erase: position out of range");
+    }
+
+    for (std::size_t i = pos; i + 1 < size_; ++i) {
+        data_[i] = data_[i + 1];
+    }
+
+    --size_;
+}

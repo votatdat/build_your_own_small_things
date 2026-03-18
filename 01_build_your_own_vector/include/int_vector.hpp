@@ -61,4 +61,7 @@ public:
     int* end() noexcept;
     const int* end() const noexcept;
     const int* cend() const noexcept;
+
+    void insert(std::size_t pos, int value);
+    void erase(std::size_t pos);
 };
